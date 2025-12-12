@@ -3,7 +3,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun --hot src/server.ts"
+    "dev": "bun --hot src/server.ts",
+    "lint-format": "biome check --write"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.8",
