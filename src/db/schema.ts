@@ -15,6 +15,6 @@ export const urlInsertSchema = createInsertSchema(urls, {
     url: true,
   })
   .omit({
-  id: true,
-  code: true,
-});
+    id: true,
+    code: true,
+  });
