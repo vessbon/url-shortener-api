@@ -18,6 +18,3 @@ export const urlInsertSchema = createInsertSchema(urls, {
   id: true,
   code: true,
 });
-export const urlDeleteSchema = urlSelectSchema
-  .pick({ id: true })
-  .extend({ id: z.coerce.number() });
