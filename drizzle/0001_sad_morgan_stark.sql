@@ -1,0 +1,1 @@
+DROP INDEX `urls_url_unique`;
