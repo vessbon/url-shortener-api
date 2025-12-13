@@ -1,7 +1,9 @@
 import { zValidator } from "@hono/zod-validator";
+import { eq } from "drizzle-orm";
 import { Hono } from "hono";
 import db from "@/db";
 import { urlInsertSchema, urls } from "@/db/schema";
+import { IdParamsSchema } from "@/lib/schemas";
 import { generateCode } from "@/utils/generate-code";
 
 const urlRouter = new Hono();
@@ -18,6 +20,20 @@ urlRouter.post("/", zValidator("json", urlInsertSchema), async (c) => {
   const [inserted] = await db.insert(urls).values({ url, code }).returning();
 
   return c.json(inserted);
+});
+
+urlRouter.delete("/:id", zValidator("param", IdParamsSchema), async (c) => {
+  const { id } = c.req.valid("param");
+  const deleted = await db
+    .delete(urls)
+    .where(eq(urls.id, id))
+    .returning({ id: urls.id });
+
+  if (deleted.length === 0) {
+    return c.json({ message: "Not Found" }, 404);
+  }
+
+  return c.body(null, 204);
 });
 
 export default urlRouter;
