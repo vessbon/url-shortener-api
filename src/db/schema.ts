@@ -1,6 +1,5 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
-import { z } from "zod";
 
 export const urls = sqliteTable("urls", {
   id: integer().primaryKey({ autoIncrement: true }),
@@ -11,7 +10,11 @@ export const urls = sqliteTable("urls", {
 export const urlSelectSchema = createSelectSchema(urls);
 export const urlInsertSchema = createInsertSchema(urls, {
   url: (schema) => schema.min(1).max(256),
-}).omit({
+})
+  .required({
+    url: true,
+  })
+  .omit({
   id: true,
   code: true,
 });
