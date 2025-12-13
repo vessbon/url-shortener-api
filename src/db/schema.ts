@@ -1,5 +1,6 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import { z } from "zod";
 
 export const urls = sqliteTable("urls", {
   id: integer().primaryKey({ autoIncrement: true }),
@@ -14,3 +15,6 @@ export const urlInsertSchema = createInsertSchema(urls, {
   id: true,
   code: true,
 });
+export const urlDeleteSchema = urlSelectSchema
+  .pick({ id: true })
+  .extend({ id: z.coerce.number() });
