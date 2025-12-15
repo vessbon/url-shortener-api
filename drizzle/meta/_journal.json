@@ -15,6 +15,13 @@
       "when": 1765579995473,
       "tag": "0001_sad_morgan_stark",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1765839432489,
+      "tag": "0002_faithful_titanium_man",
+      "breakpoints": true
     }
   ]
 }
