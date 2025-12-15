@@ -9,7 +9,24 @@ export const urls = sqliteTable("urls", {
 
 export const urlSelectSchema = createSelectSchema(urls);
 export const urlInsertSchema = createInsertSchema(urls, {
-  url: (schema) => schema.min(1).max(256),
+  url: (schema) =>
+    schema
+      .min(1)
+      .max(256)
+      .transform((input, ctx) => {
+        const result = normalizeUrl(input);
+
+        if (!result.success) {
+          ctx.addIssue({
+            code: "custom",
+            message: "Invalid URL format",
+          });
+          return z.NEVER;
+        }
+
+        return result.data.href;
+      })
+      .pipe(z.httpUrl()),
 })
   .required({
     url: true,
